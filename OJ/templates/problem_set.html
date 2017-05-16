@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="am-container">
+    <h1>题库</h1>
+    <form class="am-form-inline am-u-sm-8 " role="form" method="get" action="{{url_for('problem_set')}}">
+        <div class="am-form-group am-fl">
+            <input type="text" class="am-form-field am-input-sm" name="problem_title" placeholder="题目关键字", value="{% if problem_title %}{{problem_title}}{% endif %}">
+        </div>
+        <button type="submit" class="am-btn am-btn-primary am-input-sm am-fl">搜索</button>
+    </form>
+    <div class="am-u-sm-12">
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th width = 30><center></center></th>
+                <th><center>编号</center></th>
+                <th>题目名称</th>
+                <th><center>通过</center></th>
+                <th><center>提交</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if user %}
+            {% set submitted_problem = user.get_submitted_problems() %}
+            {% endif %}
+            {% for problem in problems %}
+                {% if problem.is_allowed_use(user) %}
+                <tr>
+                    {% if user and submitted_problem.has_key(problem.id) %}
+                    {% if submitted_problem[problem.id][0] == True %}
+                    <td width = 30><center><a href="{{url_for('judge_detail', judge_id = submitted_problem[problem.id][1])}}"><span class = "am-icon-check am-success"></span></center></td>
+                    {% else %}
+                    <td width = 30><center><a href="{{url_for('judge_detail', judge_id = submitted_problem[problem.id][1])}}"><span class = "am-icon-close am-warning"></span></center></a></td>
+                    {% endif %}
+                    {% else %}
+                    <td width = 30><center></center></td>
+                    {% endif %}
+                    <td width = 60><center>{{problem.id}}</center></td>
+                    <td><a href="{{url_for('problem',problem_id=problem.id)}}">{{problem.title}}{% if not problem.is_public %}--[未审核]{% endif %}</a></td>
+                    <td width = 80><center>{{problem.ac_num}}</center></td>
+                    <td width = 80><center>{{problem.submit_num}}</center></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </hr>
+    {{sorter.get_html()|safe}}
+</div>
+{% endblock %}
