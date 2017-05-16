@@ -4,19 +4,19 @@
 
 ---
 
-##Wiki
+## Wiki
 
 - [中文文档](https://www.baidu.com)
 
 ---
 
-##Downloads
+## Downloads
 
 - [Download page](https://www.baidu.com)
 
 ---
 
-##Links
+## Links
 
 - Usage : https://www.baidu.com
 - Update : https://www.baidu.com
@@ -24,6 +24,6 @@
 
 ---
 
-##开发日志：
+## 开发日志：
 
 0.0.1 (beta)
